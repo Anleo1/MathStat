@@ -29,7 +29,13 @@ def gen_mixture(n):
     n1 = int(0.9 * n)
     n2 = n - n1
     cov1 = [[1, 0.9], [0.9, 1]]
-    cov2 = [[10, -0.9 * 10], [-0.9 * 10, 10]]
+    sigma = 10
+    rho = -0.9
+
+    cov2 = [
+        [sigma ** 2, rho * sigma * sigma],
+        [rho * sigma * sigma, sigma ** 2]
+    ]
     data1 = np.random.multivariate_normal([0, 0], cov1, n1)
     data2 = np.random.multivariate_normal([0, 0], cov2, n2)
     data = np.vstack([data1, data2])

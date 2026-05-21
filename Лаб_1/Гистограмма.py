@@ -40,6 +40,24 @@ def merge_empty_bins(bins, counts):
 def draw_histogram(ax, n, dist, dist_name, x_range, is_discrete=False):
     sample = dist.rvs(size=n)
 
+    # Для Коши выводим информацию о хвостах
+    if dist_name.startswith("Коши"):
+        left_tail = np.sum(sample < x_range[0])
+        right_tail = np.sum(sample > x_range[1])
+
+        print(f"\nКоши, n={n}")
+        print(f"Минимум: {sample.min():.3f}")
+        print(f"Максимум: {sample.max():.3f}")
+        print(f"Левый хвост (< {x_range[0]}): {left_tail}")
+        print(f"Правый хвост (> {x_range[1]}): {right_tail}")
+
+        # Расширяем диапазон отображения
+        q01, q99 = np.percentile(sample, [1, 99])
+        x_range = (
+            min(x_range[0], q01),
+            max(x_range[1], q99)
+        )
+
     # Для всех распределений одинаково: определяем k по правилу, строим бины,
     # объединяем пустые, рисуем гистограмму.
     k = get_optimal_bins(sample, n, dist_name)

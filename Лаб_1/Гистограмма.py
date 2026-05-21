@@ -42,6 +42,7 @@ def draw_histogram(ax, n, dist, dist_name, x_range, is_discrete=False):
 
     # Для Коши выводим информацию о хвостах
     if dist_name.startswith("Коши"):
+        ax.set_xlim(-10, 10)
         left_tail = np.sum(sample < x_range[0])
         right_tail = np.sum(sample > x_range[1])
 
